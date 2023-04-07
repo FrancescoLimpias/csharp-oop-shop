@@ -33,11 +33,6 @@ namespace csharp_oop_shop
             products.Add(mcDonald.RegisterNewProduct("ChickenWings", 4, 6));
             products.Add(mcDonald.RegisterNewProduct("CocaCola", 4, 8));
             */
-
-            foreach (Shop.Product p in products)
-            {
-                Console.WriteLine(p.ToString());
-            }
         }
     }
 }
