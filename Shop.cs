@@ -120,15 +120,32 @@ namespace csharp_oop_shop
                 this.uniqueCode = uniqueCode;
             }
 
+            /* advanced getters
+             * these are functions that return
+             * "dynamic" attributes, calculated
+             * from the base "static" attributes
+             */
+            public string GetFullName()
+            {
+                return $"[{uniqueCode}]{name}";
+            }
+            public float GetPrice()
+            {
+                return price;
+            }
             public float GetIVAPrice()
             {
                 return price + (price * iva / 100);
             }
+
+            // uniqueCode getter
             public int GetUniqueCode()
             {
                 return uniqueCode;
             }
 
+            // Override for Object.toString,
+            // so that products have a nice and easy way to be printed on console
             public override string ToString()
             {
                 return $"{name}: {GetIVAPrice()}Euro";
