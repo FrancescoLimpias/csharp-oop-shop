@@ -12,6 +12,8 @@ namespace csharp_oop_shop
         //The shop name (e.g: "McDonald, Despar, Wallmart, ...)
         private string shopName;
 
+        private int UniqueCodePadding = 8;
+
         /* The list of registered codes
          * 
          * Products' code are unique
@@ -45,6 +47,19 @@ namespace csharp_oop_shop
         {
             return registeredCodes.Contains(uniqueCode);
         }
+        public int GetUniqueCodePadding()
+        {
+            return UniqueCodePadding;
+        }
+        private int GetMaxCodeValue()
+        {
+            string maxValue = "";
+
+            while (maxValue.Length < GetUniqueCodePadding())
+                maxValue += "9";
+
+            return Convert.ToInt32(maxValue);
+        }
 
         /* GenerateCode()
          * using a Random generator 
@@ -56,7 +71,7 @@ namespace csharp_oop_shop
             int newCode;
             do
             {
-                newCode = randomCodeGenerator.Next();
+                newCode = randomCodeGenerator.Next(GetMaxCodeValue());
             } while (HasCode(newCode)); //check if code has already been used
 
             return newCode;
@@ -80,11 +95,12 @@ namespace csharp_oop_shop
             {
                 throw new Exception($"The provided code has already been used! CODE: {uniqueCode}"); 
             }
+            int code = (int) uniqueCode;
 
             //Register the validated code
-            registeredCodes.Add((int) uniqueCode);
+            registeredCodes.Add(code);
 
-            return new Product(name, price, iva, (int) uniqueCode);
+            return new Product(this, name, price, iva, code);
         }
 
 
@@ -97,6 +113,7 @@ namespace csharp_oop_shop
         public class Product
         {
             //Product details
+            private Shop ParentShop;
             private int uniqueCode;
             public string name, description;
             public float 
@@ -108,12 +125,14 @@ namespace csharp_oop_shop
              *   and so is not enforced by the product's constructor.
              */
             public Product(
+                Shop parentShop,
                 string name,
                 float price, 
                 float iva, 
                 int uniqueCode
                 )
             {
+                this.ParentShop = parentShop;
                 this.name = name;
                 this.price = price;
                 this.iva = iva;
@@ -127,7 +146,7 @@ namespace csharp_oop_shop
              */
             public string GetFullName()
             {
-                return $"[{uniqueCode}]{name}";
+                return $"[{GetPaddedUniqueCode()}]{name}";
             }
             public float GetPrice()
             {
@@ -143,12 +162,32 @@ namespace csharp_oop_shop
             {
                 return uniqueCode;
             }
+            public string GetPaddedUniqueCode()
+            {
+                //Cast the code into a string type
+                string castedCode = uniqueCode.ToString();
+
+                //Check if code is not too long
+                /* FROM OLD IMPLEMENTATION, KEPT JUST IN CASE...
+                if (castedCode.Length > ParentShop.GetUniqueCodePadding())
+                {
+                    throw new Exception($"The code is too long! CODE: {castedCode}");
+                }
+                */
+
+                //Grow the string until it is long enough
+                //for the requested padding
+                while (castedCode.Length < ParentShop.UniqueCodePadding)
+                    castedCode = "0" + castedCode;
+
+                return castedCode;
+            }
 
             // Override for Object.toString,
             // so that products have a nice and easy way to be printed on console
             public override string ToString()
             {
-                return $"{name}: {GetIVAPrice()}Euro";
+                return $"{GetFullName()}: {GetIVAPrice()}Euro";
             }
 
         }
