@@ -11,17 +11,18 @@ namespace csharp_oop_shop
      * 
      * this class represents each product registered
      * in a shop "database"
-     * 
      */
     internal class Product
     {
+        //Product IDs
+        private Guid parentShopGuid;
+        private Guid guid = new Guid();
+
         //Product details
-        private Shop ParentShop;
-        private int uniqueCode;
         public string name, description;
         public float
             price, /* in euros */
-            iva /* percentage */;
+            iva /* a percentage */;
 
         /* Product constructor
          * - the description attribute is optional
@@ -32,14 +33,12 @@ namespace csharp_oop_shop
             string name,
             float price,
             float iva,
-            int uniqueCode
             )
         {
-            this.ParentShop = parentShop;
+            this.ParentShop = parentShop.guid;
             this.name = name;
             this.price = price;
             this.iva = iva;
-            this.uniqueCode = uniqueCode;
         }
 
         /* advanced getters
@@ -60,15 +59,20 @@ namespace csharp_oop_shop
             return price + (price * iva / 100);
         }
 
-        // uniqueCode getter
-        public int GetUniqueCode()
+        // GUID getters
+        public Guid GetUniqueCode()
         {
-            return uniqueCode;
+            return guid;
         }
+
+        /* DEPRECATED use
+         * as Guid identifiers have substituted old 'integer based' identifiers
+         * this "normalizing" function lost meaning, now it's kept just for legacy code.
+         */
         public string GetPaddedUniqueCode()
         {
             //Cast the code into a string type
-            string castedCode = uniqueCode.ToString();
+            string castedCode = guid.ToString();
 
             //Check if code is not too long
             /* FROM OLD IMPLEMENTATION, KEPT JUST IN CASE...
@@ -80,8 +84,10 @@ namespace csharp_oop_shop
 
             //Grow the string until it is long enough
             //for the requested padding
+            /*
             while (castedCode.Length < ParentShop.UniqueCodePadding)
                 castedCode = "0" + castedCode;
+            */
 
             return castedCode;
         }
