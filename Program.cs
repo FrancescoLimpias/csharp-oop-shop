@@ -4,17 +4,22 @@
 
 namespace csharp_oop_shop
 {
+    //"Clearfix" implementation of a current state
+    static State currentState = new State();
+
     internal class Program
     {
         //My shop
         static Shop mcDonald;
-        static Shop.Product[] products; 
-        //static List<Shop.Product> products = new List<Shop.Product>();
+        //static Shop.Product[] products; 
+
         static void Main(string[] args)
         {
 
             //Instantiate the shop
-            mcDonald = new Shop("McDonald's");
+            mcDonald = new Shop("McDonald's").save();
+
+            /*
             products = new Shop.Product[5];
 
             products[0] = mcDonald.RegisterNewProduct("Crispy McBacon", 8, 6);
@@ -27,11 +32,6 @@ namespace csharp_oop_shop
             {
                 Console.WriteLine(product);
             }
-
-            /*
-            products.Add(mcDonald.RegisterNewProduct("CrispyMcBacon", 8, 6));
-            products.Add(mcDonald.RegisterNewProduct("ChickenWings", 4, 6));
-            products.Add(mcDonald.RegisterNewProduct("CocaCola", 4, 8));
             */
         }
     }

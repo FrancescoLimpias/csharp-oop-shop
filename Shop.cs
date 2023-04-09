@@ -9,56 +9,39 @@ namespace csharp_oop_shop
 
     internal class Shop
     {
-        //The shop name (e.g: "McDonald, Despar, Wallmart, ...)
-        private string shopName;
 
-        private int UniqueCodePadding = 8;
+        //Shop IDs
+        private Guid guid = new Guid();
+        private List<Guid> productsGuids = new List<Guid>();
 
-        /* The list of registered codes
-         * 
-         * Products' code are unique
-         * so each shop has to
-         * register all its "active" codes
-         * to avoid repetitions
+        //Shop details
+        public string name, description;
+
+        /* CONSTRUCTORS
+         * 1) base constructor that allows for creation of NEW shops
+         *      1.5) save function that allows for storage of NEW shops
+         * 2) function based "constructor" that allows for EXISTENT shops retrieval
          */
-        public List<int> registeredCodes;
-
-        /* The Random instance used to
-         * generate new codes
-         */
-        private Random randomCodeGenerator;
-
         public Shop(string shopName)
         {
-            //Save parameters
+            //save details
             this.shopName = shopName;
+        }
+        public Shop save()
+        {
+            currentState.addShop(this);
+            return this;
+        }
 
-            //Instantiate the required class attributes
-            registeredCodes = new List<int>();
-            randomCodeGenerator = new Random();
+        public Shop find(Guid guid)
+        {
+            return currentState.getShop(guid);
         }
 
         //Details getters
-        public string GetName()
+        public bool HasProduct(Product product)
         {
-            return shopName;
-        }
-        public bool HasCode(int uniqueCode)
-        {
-            return registeredCodes.Contains(uniqueCode);
-        }
-        public int GetUniqueCodePadding()
-        {
-            return UniqueCodePadding;
-        }
-        private int GetMaxCodeValue()
-        {
-            string maxValue = "";
-
-            while (maxValue.Length < GetUniqueCodePadding())
-                maxValue += "9";
-
-            return Convert.ToInt32(maxValue);
+            return productsGuids.Contains(product.guid);
         }
 
         /* GenerateCode()
