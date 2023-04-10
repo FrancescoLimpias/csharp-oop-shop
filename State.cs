@@ -27,7 +27,13 @@ namespace csharp_oop_shop
         //Attempt to retrieve a shop by a given guid
         public Shop GetShopByGuid(Guid guid)
         {
-            return shops.First(evShop => evShop.guid == guid);
+            try
+            {
+                return shops.First(evShop => evShop.guid == guid);
+            } catch(InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         //Attempt to store a shop (validation based on guid uniqueness)

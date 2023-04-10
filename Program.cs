@@ -4,20 +4,26 @@
 
 namespace csharp_oop_shop
 {
-    //"Clearfix" implementation of a current state
-    static State currentState = new State();
 
-    internal class Program
+    public class Program
     {
-        //My shop
-        static Shop mcDonald;
-        //static Shop.Product[] products; 
+
+        //"Clearfix" implementation of a current state
+        public static State currentState = new State();
 
         static void Main(string[] args)
         {
 
-            //Instantiate the shop
-            mcDonald = new Shop("McDonald's").save();
+            //Instantiate a shop
+            Shop mcDonald = new Shop("McDonald's").save();
+            Console.WriteLine(mcDonald.name);
+
+            //Save shop's Guid for later referral
+            Guid mcDonaldGuid = mcDonald.guid;
+
+            //Retrieve same shop by Guid
+            Shop otherMcDonald = Shop.find(mcDonaldGuid);
+            Console.WriteLine(otherMcDonald.name);
 
             /*
             products = new Shop.Product[5];
