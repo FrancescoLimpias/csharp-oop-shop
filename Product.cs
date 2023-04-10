@@ -12,7 +12,7 @@ namespace csharp_oop_shop
      * this class represents each product registered
      * in a shop "database"
      */
-    internal class Product
+    public class Product
     {
 
         //PRODUCT's PROPERTIES
@@ -21,16 +21,14 @@ namespace csharp_oop_shop
         public Guid guid { private set; get; } = new Guid();
 
         //Product details
-        public string 
-            name, 
-            description;
+        public string name, description;
         public string fullName => $"[{/*GetPaddedUniqueCode()*/"DEBUG PADDING!"}]{name}";
 
         //Product prices
-        public float
-            price, /* in euros */
-            iva; /* a percentage */
-        public float ivaPrice => price + (price * iva / 100); /* in euros */
+        public float 
+            price, // euros
+            iva; // percentage
+        public float ivaPrice => price + (price * iva / 100); // euros
 
 
         /* PRODUCT CONSTRUCTOR

@@ -6,58 +6,44 @@ using System.Threading.Tasks;
 
 namespace csharp_oop_shop
 {
-
-    internal class Shop
+    public class Shop
     {
 
+        //SHOP's PROPERTIES
         //Shop IDs
-        private Guid guid = new Guid();
+        public Guid guid { get; private set; } = new Guid();
         private List<Guid> productsGuids = new List<Guid>();
 
         //Shop details
         public string name, description;
 
-        /* CONSTRUCTORS
+
+        /* SHOP CONSTRUCTOR(s)
          * 1) base constructor that allows for creation of NEW shops
          *      1.5) save function that allows for storage of NEW shops
          * 2) function based "constructor" that allows for EXISTENT shops retrieval
          */
-        public Shop(string shopName)
+        public Shop(string name)
         {
             //save details
-            this.shopName = shopName;
+            this.name = name;
         }
         public Shop save()
         {
-            currentState.addShop(this);
+            Program.currentState.addShop(this);
             return this;
         }
 
-        public Shop find(Guid guid)
+        public static Shop find(Guid guid)
         {
-            return currentState.getShop(guid);
+            return Program.currentState.getShop(guid);
         }
 
-        //Details getters
+        //SHOP's METHODS
+        //check if a given product is registered
         public bool HasProduct(Product product)
         {
             return productsGuids.Contains(product.guid);
-        }
-
-        /* GenerateCode()
-         * using a Random generator 
-         * this function returns a new
-         * available code for use
-         */
-        private int GenerateCode()
-        {
-            int newCode;
-            do
-            {
-                newCode = randomCodeGenerator.Next(GetMaxCodeValue());
-            } while (HasCode(newCode)); //check if code has already been used
-
-            return newCode;
         }
 
         /* RegisterNewProduct(...args[], int? uniqueCode)
@@ -66,6 +52,7 @@ namespace csharp_oop_shop
          * registers the product (adding the required unique product's code)
          * in the shop
          */
+        /*
         public Product RegisterNewProduct(string name, int price, int iva, int? uniqueCode = null)
         {
 
@@ -85,10 +72,7 @@ namespace csharp_oop_shop
 
             return new Product(this, name, price, iva, code);
         }
-
-
-
-
+        */
     }
 
 }
