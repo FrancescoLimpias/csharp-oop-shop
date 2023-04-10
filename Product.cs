@@ -12,26 +12,30 @@ namespace csharp_oop_shop
      * this class represents each product registered
      * in a shop "database"
      */
-    public class Product : GuidIdentified
+    public class Product : IGuidIdentified
     {
 
         //PRODUCT's PROPERTIES
         //Product IDs
-        public Guid parentShopGuid { private set; get; }
-        public Guid guid { private set; get; } = new Guid();
+        public Guid ShopGuid { private set; get; }
+        public Shop shop => Program.currentState.GetShopByGuid(ShopGuid);
+        public Guid Guid { private set; get; } = Guid.NewGuid();
 
         //Product details
-        public string name, description;
-        public string fullName => $"[{/*GetPaddedUniqueCode()*/"DEBUG PADDING!"}]{name}";
+        public string name, description = "";
+        public string FullName => $"[{Guid}]{name}";
 
         //Product prices
         public float 
             price, // euros
             iva; // percentage
-        public float ivaPrice => price + (price * iva / 100); // euros
+        public float IvaPrice => price + (price * iva / 100); // euros
 
 
         /* PRODUCT CONSTRUCTOR
+         * 1) base constructor that allows for creation and storage of NEW products
+         * 2) function based "constructor" that allows for EXISTENT products retrieval
+         * 
          * - the description attribute is optional
          *   and so is not enforced by the product's constructor.
          */
@@ -42,17 +46,24 @@ namespace csharp_oop_shop
             float iva
             )
         {
-            this.parentShopGuid = parentShop.guid;
+            ShopGuid = parentShop.Guid;
             this.name = name;
             this.price = price;
             this.iva = iva;
+
+            Program.currentState.AddProduct(this);
+        }
+
+        public static Product? Find(Guid guid)
+        {
+            return Program.currentState.GetProductByGuid(guid);
         }
 
         // Override for Object.toString,
         // so that products have a nice and easy way to be printed on console
         public override string ToString()
         {
-            return $"{fullName}: {ivaPrice}Euro";
+            return $"{FullName}: {IvaPrice}Euro";
         }
     }
 }
