@@ -9,36 +9,25 @@ namespace csharp_oop_shop
     {
 
         //"Clearfix" implementation of a current state
-        public static State currentState = new State();
+        internal static State currentState = new();
 
         static void Main(string[] args)
         {
 
             //Instantiate a shop
-            Shop mcDonald = new Shop("McDonald's").save();
-            Console.WriteLine(mcDonald.name);
+            Shop mcDonald = new Shop("McDonald's");
 
-            //Save shop's Guid for later referral
-            Guid mcDonaldGuid = mcDonald.guid;
+            //Add some products
+            new Product(mcDonald, "Crispy McBacon", 8, 6);
+            new Product(mcDonald, "Chicken Wings", 5, 9);
+            new Product(mcDonald, "CocaCola", 10, 2);
+            new Product(mcDonald, "Tasty Bucket", 20, 40);
+            new Product(mcDonald, "McFlurry", 32, 18);
 
-            //Retrieve same shop by Guid
-            Shop otherMcDonald = Shop.find(mcDonaldGuid);
-            Console.WriteLine(otherMcDonald.name);
+            //Log everything
+            Console.WriteLine(mcDonald.ToString());
+            Console.WriteLine(mcDonald.ProductsToString());
 
-            /*
-            products = new Shop.Product[5];
-
-            products[0] = mcDonald.RegisterNewProduct("Crispy McBacon", 8, 6);
-            products[1] = mcDonald.RegisterNewProduct("Chicken Wings", 5, 9);
-            products[2] = mcDonald.RegisterNewProduct("CocaCola", 10, 2);
-            products[3] = mcDonald.RegisterNewProduct("Tasty Bucket", 20, 40);
-            products[4] = mcDonald.RegisterNewProduct("Mc Flurry", 32, 18);
-
-            foreach(Shop.Product product in products)
-            {
-                Console.WriteLine(product);
-            }
-            */
         }
     }
 }
