@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace csharp_oop_shop
@@ -17,6 +18,7 @@ namespace csharp_oop_shop
         public string name, description = "";
 
         //Shop products
+        [JsonIgnore]
         public List<Product> Products
         {
             get

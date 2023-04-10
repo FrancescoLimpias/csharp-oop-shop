@@ -19,7 +19,19 @@ namespace csharp_oop_shop
 
         //STATE PROPERTIES
         //All stored data (by type, like tables in a database)
-        private List<Shop> Shops { get; set; } = new List<Shop>();
+        private List<Shop> _shops = new();
+        public List<Shop> Shops {
+            get
+            {
+                return new List<Shop>(_shops);
+            } 
+
+            set
+            {
+                _shops = value;
+            } 
+        }
+
         private List<Product> _products = new();
         public List<Product> Products {
             get
@@ -27,7 +39,7 @@ namespace csharp_oop_shop
                 return new List<Product>(_products);
             }
 
-            private set
+            set
             {
                 _products = value;
             }
@@ -48,7 +60,7 @@ namespace csharp_oop_shop
         //Attempt to store a shop (validation based on guid uniqueness)
         public void AddShop(Shop shop)
         {
-            GuidUtils.AddElement(Shops, shop);
+            GuidUtils.AddElement(_shops, shop);
         }
 
 
