@@ -30,13 +30,13 @@ namespace csharp_oop_shop
         }
         public Shop save()
         {
-            Program.currentState.addShop(this);
+            Program.currentState.AddShop(this);
             return this;
         }
 
         public static Shop find(Guid guid)
         {
-            return Program.currentState.getShop(guid);
+            return Program.currentState.GetShopByGuid(guid);
         }
 
         //SHOP's METHODS
