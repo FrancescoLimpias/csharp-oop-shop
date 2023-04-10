@@ -17,37 +17,61 @@ namespace csharp_oop_shop
     public class State
     {
 
+        //STATE PROPERTIES
         //All stored data (by type, like tables in a database)
         private List<Shop> shops { get; set; } = new List<Shop>();
         private List<Product> products { get; set; } = new List<Product>();
 
+
+        //empty constructor
         public State()
         { }
 
-        //Attempt to retrieve a shop by a given guid
-        public Shop GetShopByGuid(Guid guid)
+
+        /* STATE PRIVATE METHODS
+         * this methods are the generic (literally) implementation
+         * of validation for all types that have a guid based identification.
+         */
+        private T? GetElementByGuid<T>(List<T> list, Guid guid) where T : GuidIdentified?
         {
             try
             {
-                return shops.First(evShop => evShop.guid == guid);
-            } catch(InvalidOperationException)
+                return list.First(evaluetedElement => evaluetedElement.guid == guid);
+            }
+            catch (InvalidOperationException)
             {
-                return null;
+                return default(T); //in other words, NULL
             }
         }
 
+        private void AddElement<T>(List<T> list, T element) where T : GuidIdentified?
+        {
+            if (
+                list.Contains(element)  //there is an instance of this element already
+                || GetElementByGuid(list, element.guid) != null) //the element guid has already been registered
+            {
+                throw new Exception("Element already registered!");
+            }
+
+            list.Add(element);
+        }
+
+
+        //SHOPS VALIDATIONS
+        //Attempt to retrieve a shop by a given guid
+        public Shop? GetShopByGuid(Guid guid)
+        {
+            return GetElementByGuid(shops, guid);
+        }
         //Attempt to store a shop (validation based on guid uniqueness)
         public void AddShop(Shop shop)
         {
-            if (
-                shops.Contains(shop)  //there is an instance of this shop already
-                || GetShopByGuid(shop.guid) != null) //the shop guid has already been registered
-            {
-                throw new Exception("Shop already registered!");
-            }
-
-            shops.Add(shop);
+            AddElement(shops, shop);
         }
+
+
+        //PRODUCTS VALIDATIONS
+        //...
     }
 
 }
