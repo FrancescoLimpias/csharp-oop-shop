@@ -28,50 +28,29 @@ namespace csharp_oop_shop
         { }
 
 
-        /* STATE PRIVATE METHODS
-         * this methods are the generic (literally) implementation
-         * of validation for all types that have a guid based identification.
-         */
-        private T? GetElementByGuid<T>(List<T> list, Guid guid) where T : GuidIdentified?
-        {
-            try
-            {
-                return list.First(evaluetedElement => evaluetedElement.guid == guid);
-            }
-            catch (InvalidOperationException)
-            {
-                return default(T); //in other words, NULL
-            }
-        }
-
-        private void AddElement<T>(List<T> list, T element) where T : GuidIdentified?
-        {
-            if (
-                list.Contains(element)  //there is an instance of this element already
-                || GetElementByGuid(list, element.guid) != null) //the element guid has already been registered
-            {
-                throw new Exception("Element already registered!");
-            }
-
-            list.Add(element);
-        }
-
-
         //SHOPS VALIDATIONS
         //Attempt to retrieve a shop by a given guid
         public Shop? GetShopByGuid(Guid guid)
         {
-            return GetElementByGuid(shops, guid);
+            return GuidUtils.GetElementByGuid(shops, guid);
         }
         //Attempt to store a shop (validation based on guid uniqueness)
         public void AddShop(Shop shop)
         {
-            AddElement(shops, shop);
+            GuidUtils.AddElement(shops, shop);
         }
 
 
         //PRODUCTS VALIDATIONS
-        //...
+        //Attempt to retrieve a product by a given guid
+        public Product? GetProductByGuid(Guid guid)
+        {
+            return GuidUtils.GetElementByGuid(products, guid);
+        }
+        //Attempt to store a product (validation based on guid uniqueness)
+        public void AddProduct(Product shop)
+        {
+            GuidUtils.AddElement(products, shop);
+        }
     }
-
 }
