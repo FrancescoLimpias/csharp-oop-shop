@@ -12,7 +12,7 @@ namespace csharp_oop_shop
      * this class represents each product registered
      * in a shop "database"
      */
-    public class Product
+    public class Product : GuidIdentified
     {
 
         //PRODUCT's PROPERTIES

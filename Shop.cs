@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace csharp_oop_shop
 {
-    public class Shop
+    public class Shop : GuidIdentified
     {
 
         //SHOP's PROPERTIES
